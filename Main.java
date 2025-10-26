@@ -10,7 +10,7 @@ public class Main
 		int while_hook=1;
 		while(while_hook!=0)
 		{
-			System.out.println(" \n Type 0 to Exit \n Type 1 to List Stocks\n Type 2 to show your portfolio \n Type 3 to Buy Stocks \n Type 4 to Sell Stocks \n");
+			System.out.println(" \n Type 0 to Exit \n Type 1 to List Stocks\n Type 2 to show your portfolio \n Type 3 to Buy Stocks \n Type 4 to Sell Stocks");
 			System.out.println(" Type 5 to calculate overall Portfolio value ");
 			int val=input.nextInt();
 			switch(val)
@@ -75,6 +75,7 @@ public class Main
 			default:
 				System.out.println("Type Again");
 			}
+			p1.updateStockPrice();
 		}
 	}
 }
@@ -100,11 +101,51 @@ class portfolio_stocks
 			System.out.printf("(%d)%s\n",i+1,stock_bought[i].toString());
 		}
 	}
+	public void updateStockPrice()
+	{
+		if(Math.round(Math.random())==1)
+		{
+			s1.apple.updateCurrentPrice(s1.apple.get_current_price()+(int)(Math.random()*10));
+		}
+		else
+		{
+			s1.apple.updateCurrentPrice(s1.apple.get_current_price()-(int)(Math.random()*10));
+		}
+		if(Math.round(Math.random())==1)
+		{
+			s1.google.updateCurrentPrice(s1.google.get_current_price()+(int)(Math.random()*10));
+
+		}
+		else
+		{
+			s1.google.updateCurrentPrice(s1.google.get_current_price()-(int)(Math.random()*10));
+
+		}
+		if(Math.round(Math.random())==1)
+		{
+			s1.nividia.updateCurrentPrice(s1.nividia.get_current_price()+(int)(Math.random()*10));
+		}
+		else
+		{
+			s1.nividia.updateCurrentPrice(s1.nividia.get_current_price()-(int)(Math.random()*10));
+		}
+		if(Math.round(Math.random())==1)
+		{
+			s1.tesla.updateCurrentPrice(s1.tesla.get_current_price()+(int)(Math.random()*10));
+		}
+		else
+		{
+			s1.tesla.updateCurrentPrice(s1.tesla.get_current_price()+(int)(Math.random()*10));
+		}
+		
+		
+	}
 	public void printAvailableStock()
 	{
 		System.out.println("(1)"+s1.apple.toString()+"\n"+"(2)"+s1.google.toString()+"\n"
 		+ "(3)"+s1.nividia.toString()+"\n"+"(4)"+s1.tesla.toString());
 	}
+
 	public void sellStock(int stock_num,int qty)
 	{
 		if(stock_bought[stock_num-1].getStockName()=="Apple")
