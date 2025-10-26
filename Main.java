@@ -6,12 +6,13 @@ public class Main
 		Scanner input=new Scanner(System.in);
 		portfolio_stocks p1=new portfolio_stocks();
 		stocks s1=new stocks();
+		balance b1=new balance();
 
 		int while_hook=1;
 		while(while_hook!=0)
 		{
 			System.out.println(" \n Type 0 to Exit \n Type 1 to List Stocks\n Type 2 to show your portfolio \n Type 3 to Buy Stocks \n Type 4 to Sell Stocks");
-			System.out.println(" Type 5 to calculate overall Portfolio value \n Type 6 for Portfolio Summary");
+			System.out.println(" Type 5 to calculate overall Portfolio value \n Type 6 for Portfolio Summary\n Type 7 to show you Current Balance");
 			int val=input.nextInt();
 			switch(val)
 			{
@@ -76,6 +77,10 @@ public class Main
 				System.out.println("Portfolio Summary");
 				p1.portfolioSummary();
 				break;
+			case 7 :
+				//show balance
+				System.out.println("Balance=₹"+p1.showCurrentBalance());
+				break;
 			default:
 				System.out.println("Type Again");
 			}
@@ -99,8 +104,13 @@ class portfolio_stocks
 		}
 		return stock_bought;
 	}
+	public int showCurrentBalance()
+	{
+		return b1.get_current_balance();
+	}
 	public void portfolioSummary()
 	{
+		int sum=0;
 		for(int i=0;i<count;i++)
 		{
 			if(stock_bought[i].getStockName()=="Apple")
@@ -118,6 +128,7 @@ class portfolio_stocks
 					//loss
 					System.out.printf("(%d)%s Loss=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
 				}
+				sum+=marketValue-stockBoughtValue;
 			}
 			else if(stock_bought[i].getStockName()=="Google")
 			{
@@ -134,6 +145,7 @@ class portfolio_stocks
 					//loss
 					System.out.printf("(%d)%s Loss=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
 				}
+				sum+=marketValue-stockBoughtValue;
 			}
 			else if(stock_bought[i].getStockName()=="Nividia")
 			{
@@ -150,6 +162,7 @@ class portfolio_stocks
 					//loss
 					System.out.printf("(%d)%s Loss=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
 				}
+				sum+=marketValue-stockBoughtValue;
 			}
 			else if(stock_bought[i].getStockName()=="Tesla")
 			{
@@ -166,11 +179,21 @@ class portfolio_stocks
 					//loss
 					System.out.printf("(%d)%s Loss=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
 				}
+				sum+=marketValue-stockBoughtValue;
 			}
 			else
 			{
 				System.out.println("Error in Calculating Profit/Loss! Wrong Stock Name!");
 			}
+			
+		}
+		if(sum>0)
+		{
+			System.out.println("Net Profit of ₹"+sum);
+		}
+		else
+		{
+			System.out.println("Net Loss of ₹"+sum);
 		}
 		
 	}
@@ -234,25 +257,25 @@ class portfolio_stocks
 			s1.apple=new stock(s1.apple.getStockName(),s1.apple.get_current_price(),s1.apple.getQuantity()+qty);
 			//portfolio delete
 			stock_bought[stock_num-1]=new stock(stock_bought[stock_num-1].getStockName(),stock_bought[stock_num-1].get_current_price(),stock_bought[stock_num-1].getQuantity()-qty);
-
+			b1.updateCurrentBalance((s1.apple.get_current_price()*qty));
 		}
 		else if(stock_bought[stock_num-1].getStockName()=="Google")
 		{
-			//apple
+			//google
 			//stock feed update 
 			s1.google=new stock(s1.google.getStockName(),s1.google.get_current_price(),s1.google.getQuantity()+qty);
 			//portfolio delete
 			stock_bought[stock_num-1]=new stock(stock_bought[stock_num-1].getStockName(),stock_bought[stock_num-1].get_current_price(),stock_bought[stock_num-1].getQuantity()-qty);
-
+			b1.updateCurrentBalance((s1.google.get_current_price()*qty));
 		}
 		else if(stock_bought[stock_num-1].getStockName()=="Nividia")
 		{
-			//apple
+			//google
 			//stock feed update 
 			s1.nividia=new stock(s1.nividia.getStockName(),s1.nividia.get_current_price(),s1.nividia.getQuantity()+qty);
 			//portfolio delete
 			stock_bought[stock_num-1]=new stock(stock_bought[stock_num-1].getStockName(),stock_bought[stock_num-1].get_current_price(),stock_bought[stock_num-1].getQuantity()-qty);
-
+			b1.updateCurrentBalance((s1.nividia.get_current_price()*qty));
 		}
 		else if(stock_bought[stock_num-1].getStockName()=="Tesla")
 		{
@@ -261,7 +284,7 @@ class portfolio_stocks
 			s1.tesla=new stock(s1.tesla.getStockName(),s1.tesla.get_current_price(),s1.tesla.getQuantity()+qty);
 			//portfolio delete
 			stock_bought[stock_num-1]=new stock(stock_bought[stock_num-1].getStockName(),stock_bought[stock_num-1].get_current_price(),stock_bought[stock_num-1].getQuantity()-qty);
-
+			b1.updateCurrentBalance((s1.tesla.get_current_price()*qty));
 		}
 		else
 		{
@@ -278,6 +301,7 @@ class portfolio_stocks
 				//authenticate
 				stock_bought[count++]=new stock(s1.apple.getStockName(),s1.apple.get_current_price(),qty);
 				s1.apple=new stock(s1.apple.getStockName(),s1.apple.get_current_price(),s1.apple.getQuantity()-qty);
+				b1.updateCurrentBalance(-(s1.apple.get_current_price()*qty));
 		}	
 		else if (stock_num==2&&(s1.google.get_current_price()*qty<b1.get_current_balance()&& qty<=s1.google.getQuantity()))
 		{
@@ -285,12 +309,14 @@ class portfolio_stocks
 				//authenticate
 				stock_bought[count++]=new stock(s1.google.getStockName(),s1.google.get_current_price(),qty);
 				s1.google=new stock(s1.google.getStockName(),s1.google.get_current_price(),s1.google.getQuantity()-qty);
+				b1.updateCurrentBalance(-(s1.google.get_current_price()*qty));
 		}
 		else if (stock_num==3&&(s1.nividia.get_current_price()*qty<b1.get_current_balance()&& qty<=s1.nividia.getQuantity()))
 		{
 				//authenticate
 				stock_bought[count++]=new stock(s1.nividia.getStockName(),s1.nividia.get_current_price(),qty);
 				s1.nividia=new stock(s1.nividia.getStockName(),s1.nividia.get_current_price(),s1.nividia.getQuantity()-qty);
+				b1.updateCurrentBalance(-(s1.nividia.get_current_price()*qty));
 		}
 		else if (stock_num==4&&(s1.tesla.get_current_price()*qty<b1.get_current_balance()&& qty<=s1.tesla.getQuantity()))
 		{
@@ -298,6 +324,7 @@ class portfolio_stocks
 				//authenticate
 				stock_bought[count++]=new stock(s1.tesla.getStockName(),s1.tesla.get_current_price(),qty);
 				s1.tesla=new stock(s1.tesla.getStockName(),s1.tesla.get_current_price(),s1.tesla.getQuantity()-qty);
+				b1.updateCurrentBalance(-(s1.tesla.get_current_price()*qty));
 		}
 		else{
 			System.out.println("Error in buying Stock ! Decrease the Stock Quantity");
@@ -329,29 +356,6 @@ class stocks
 		return "(1)"+apple.toString()+"\n"+"(2)"+google.toString()+"\n"
 		+ "(3)"+nividia.toString()+"\n"+"(4)"+tesla.toString();
 	}
-	// public void updateStock(String name,int current_price,int quantity)
-	// {
-	// 	if(name=="apple")
-	// 	{
-	// 		apple=new stock(name,current_price,quantity);
-	// 	}
-	// 	else if(name=="nividia")
-	// 	{
-	// 		nividia=new stock(name,current_price,quantity);
-	// 	}
-	// 	else if (name=="google")
-	// 	{
-	// 		google=new stock(name,current_price,quantity);
-	// 	}
-	// 	else if(name=="tesla")
-	// 	{	
-	// 		tesla=new stock(name,current_price,quantity);
-	// 	}
-	// 	else
-	// 	{
-	// 		System.out.println("Error in stock name!");
-	// 	}
-	// }
 }
 
 class stock 
@@ -419,21 +423,13 @@ class balance
 	{
 
 	}
-	public balance(boolean buy,String name,int price,int qty_num)
+	public balance(int balance)
 	{
-		//check current_balance value>price*qty_num in the function
-		// if(buy==true)
-		// {
-		// 	//buy
-		// 	current_balance=current_balance-price*qty_num;
-		// 	update_portfolio(buy,name,price,qty_num);
-		// }
-		// else
-		// {
-		// 	//sell
-		// 	current_balance=current_balance+price*qty_num;
-		// 	update_portfolio(buy,name,price,qty_num);
-		// }
+		this.current_balance+=balance;
+	}
+	public void updateCurrentBalance(int balance)
+	{
+		this.current_balance+=balance;
 	}
 	public int get_current_balance()
 	{
