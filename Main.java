@@ -11,7 +11,7 @@ public class Main
 		while(while_hook!=0)
 		{
 			System.out.println(" \n Type 0 to Exit \n Type 1 to List Stocks\n Type 2 to show your portfolio \n Type 3 to Buy Stocks \n Type 4 to Sell Stocks");
-			System.out.println(" Type 5 to calculate overall Portfolio value ");
+			System.out.println(" Type 5 to calculate overall Portfolio value \n Type 6 for Portfolio Summary");
 			int val=input.nextInt();
 			switch(val)
 			{
@@ -72,6 +72,10 @@ public class Main
 				System.out.println("Calculating Overall Portfolio Value");
 				p1.calculateOverallPortfolioValue();
 				break;
+			case 6:
+				System.out.println("Portfolio Summary");
+				p1.portfolioSummary();
+				break;
 			default:
 				System.out.println("Type Again");
 			}
@@ -94,6 +98,81 @@ class portfolio_stocks
 			stock_bought[i]=new stock();
 		}
 		return stock_bought;
+	}
+	public void portfolioSummary()
+	{
+		for(int i=0;i<count;i++)
+		{
+			if(stock_bought[i].getStockName()=="Apple")
+			{
+				int marketValue=s1.apple.get_current_price()*stock_bought[i].getQuantity();
+				int stockBoughtValue=stock_bought[i].get_current_price()*stock_bought[i].getQuantity();
+
+				if(marketValue>stockBoughtValue)
+				{
+					//profit
+					System.out.printf("(%d)%s Profit=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
+				}
+				else
+				{
+					//loss
+					System.out.printf("(%d)%s Loss=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
+				}
+			}
+			else if(stock_bought[i].getStockName()=="Google")
+			{
+				int marketValue=s1.google.get_current_price()*stock_bought[i].getQuantity();
+				int stockBoughtValue=stock_bought[i].get_current_price()*stock_bought[i].getQuantity();
+
+				if(marketValue>stockBoughtValue)
+				{
+					//profit
+					System.out.printf("(%d)%s Profit=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
+				}
+				else
+				{
+					//loss
+					System.out.printf("(%d)%s Loss=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
+				}
+			}
+			else if(stock_bought[i].getStockName()=="Nividia")
+			{
+				int marketValue=s1.nividia.get_current_price()*stock_bought[i].getQuantity();
+				int stockBoughtValue=stock_bought[i].get_current_price()*stock_bought[i].getQuantity();
+
+				if(marketValue>stockBoughtValue)
+				{
+					//profit
+					System.out.printf("(%d)%s Profit=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
+				}
+				else
+				{
+					//loss
+					System.out.printf("(%d)%s Loss=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
+				}
+			}
+			else if(stock_bought[i].getStockName()=="Tesla")
+			{
+				int marketValue=s1.tesla.get_current_price()*stock_bought[i].getQuantity();
+				int stockBoughtValue=stock_bought[i].get_current_price()*stock_bought[i].getQuantity();
+
+				if(marketValue>stockBoughtValue)
+				{
+					//profit
+					System.out.printf("(%d)%s Profit=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
+				}
+				else
+				{
+					//loss
+					System.out.printf("(%d)%s Loss=₹%d\n",i+1,stock_bought[i].toString(),marketValue-stockBoughtValue);
+				}
+			}
+			else
+			{
+				System.out.println("Error in Calculating Profit/Loss! Wrong Stock Name!");
+			}
+		}
+		
 	}
 	public void printStockArray(){
 		for(int i=0;i<count;i++)
